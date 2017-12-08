@@ -1,11 +1,9 @@
 import GCRCatalogs
 
 _default_catalogs = {
-    'protoDC2',
     'buzzard',
     'buzzard_test',
     'buzzard_high-res',
-    'dc1',
 }
 
 def test_default_catalogs():
