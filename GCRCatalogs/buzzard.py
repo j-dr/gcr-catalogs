@@ -156,23 +156,34 @@ class BuzzardGalaxyCatalog(BaseGenericCatalog):
                 self._quantity_modifiers['mag_{}_des'.format(b)] = (_mask_func, 'truth/OMAG/{}'.format(i))
                 self._quantity_modifiers['magerr_{}_des'.format(b)] = (_mask_func, 'truth/OMAGERR/{}'.format(i))
 
+            for i, b in enumerate(['W1', 'W2', 'W3', 'W4']):
+                self._quantity_modifiers['Mag_true_{}_wise_z01'.format(b)] = (_abs_mask_func, 'truth/AMAG_WISE/{}'.format(i))
+                self._quantity_modifiers['mag_true_{}_wise'.format(b)] = (_mask_func, 'truth/TMAG_WISE/{}'.format(i))
+                self._quantity_modifiers['mag_lensed_{}_wise'.format(b)] = (_mask_func, 'truth/LMAG_WISE/{}'.format(i))
+
 
     def _get_healpix_pixels(self):
         path = self._catalog_path_template[self._default_subset]
-        fname_pattern = re.escape(os.path.basename(path)).replace(r'\{', '{').replace(r'\}', '}').format(r'(\d+)')
-        path = os.path.dirname(path)
+        group_path = '/'.join(path.split('/')[:-3])
+        group_pattern = re.escape('{}').replace(r'\{', '{').replace(r'\}', '}').format(r'(\d+)')
+
+        groups = list()
         healpix_pixels = list()
-        for f in os.listdir(path):
-            m = re.match(fname_pattern, f)
-            if m is not None:
-                healpix_pixels.append(int(m.groups()[0]))
+        for f in os.listdir(group_path):
+            group = f.split('/')[-1]
+            groups.append(int(group))
+
+        for g in groups:
+            for f in os.listdir(group_path+'/{}/'.format(g)):
+                pix = f.split('/')[-1]
+                healpix_pixels.append(int(pix))    
+
         healpix_pixels.sort()
         return healpix_pixels
 
 
     def check_healpix_pixels(self):
-        assert all(os.path.isfile(path.format(i)) for path in self._catalog_path_template.values() for i in self.healpix_pixels)
-
+        assert all(os.path.isfile(path.format(group=i//100,pix=i)) for path in self._catalog_path_template.values() for i in self.healpix_pixels)
 
     def reset_healpix_pixels(self):
         """
@@ -206,7 +217,7 @@ class BuzzardGalaxyCatalog(BaseGenericCatalog):
 
 
     def _open_dataset(self, healpix, subset):
-        path = self._catalog_path_template[subset].format(healpix)
+        path = self._catalog_path_template[subset].format(group=healpix//100, pix=healpix)
 
         if self.cache is None:
             return FitsFile(path)
