@@ -9,7 +9,8 @@ from GCR import BaseGenericCatalog
 __all__ = ['available_catalogs', 'get_catalog_config', 'get_available_catalogs', 'load_catalog']
 
 _CONFIG_DIRNAME = 'catalog_configs'
-_GITHUB_URL = 'https://raw.githubusercontent.com/LSSTDESC/gcr-catalogs/master/GCRCatalogs'
+#_GITHUB_URL = 'https://raw.githubusercontent.com/LSSTDESC/gcr-catalogs/master/GCRCatalogs'
+_GITHUB_URL = 'https://raw.githubusercontent.com/j-dr/gcr-catalogs/desi/GCRCatalogs'
 
 
 def load_yaml(yaml_file):
