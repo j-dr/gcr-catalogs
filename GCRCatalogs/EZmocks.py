@@ -1,5 +1,5 @@
 """
-Buzzard galaxy catalog class.
+EZMock galaxy catalog class.
 """
 from __future__ import division, print_function
 import os
@@ -10,7 +10,7 @@ from astropy.io import fits
 from astropy.cosmology import FlatLambdaCDM
 from GCR import BaseGenericCatalog
 
-__all__ = ['EzmockGalaxyCatalog']
+__all__ = ['EZMockGalaxyCatalog']
 
 
 class FitsFile(object):
@@ -26,7 +26,7 @@ class FitsFile(object):
         del self._file_handle
 
 
-class EZmocksGalaxyCatalog(BaseGenericCatalog):
+class EZMockGalaxyCatalog(BaseGenericCatalog):
     """
     EZmocks galaxy catalog class. Uses generic quantity and filter mechanisms
     defined by BaseGenericCatalog class.
@@ -36,11 +36,9 @@ class EZmocksGalaxyCatalog(BaseGenericCatalog):
                        catalog_root_dir,
                        catalog_path_template,
                        cosmology,
-                       halo_mass_def='vir',
+                       halo_mass_def=None,
                        lightcone=True,
-                       sky_area=10000.0,
-                       healpix_pixels=None,
-                       high_res=False,
+                       sky_area=14000.0,
                        use_cache=True,
                        **kwargs):
 
@@ -68,14 +66,11 @@ class EZmocksGalaxyCatalog(BaseGenericCatalog):
             'dec_true': 'truth/DEC',
             'redshift_true' : 'truth/Z'
         }
-
-         
     
     def _generate_native_quantity_list(self):
-        native_quantities = {}
-        healpix = next(iter(self.healpix_pixels))
+        native_quantities = set()
         for subset in self._catalog_path_template.keys():
-            f = self._open_dataset(healpix, subset)
+            f = self._open_dataset(subset)
             for name, (dt, size) in f.data.dtype.fields.items():
                 if dt.shape:
                     for i in range(dt.shape[0]):
@@ -86,13 +81,8 @@ class EZmocksGalaxyCatalog(BaseGenericCatalog):
 
 
     def _iter_native_dataset(self, native_filters=None):
-        for healpix in self.healpix_pixels:
-
-            fargs = dict(healpix_pixel=healpix)
-            if native_filters and not all(f[0](*(fargs[k] for k in f[1:])) for f in native_filters):
-                continue
-
-            yield functools.partial(self._native_quantity_getter)
+        assert not native_filters, '*native_filters* is not supported'
+        yield functools.partial(self._native_quantity_getter)
 
 
     def _open_dataset(self, subset):
@@ -112,7 +102,11 @@ class EZmocksGalaxyCatalog(BaseGenericCatalog):
         assert len(native_quantity) in {2,3}, 'something wrong with the native_quantity {}'.format(native_quantity)
         subset = native_quantity.pop(0)
         column = native_quantity.pop(0)
-        data = self._open_dataset(healpix, subset).data[column]
+        data = self._open_dataset(subset).data[column]
+
         if native_quantity:
             data = data[:,int(native_quantity.pop(0))]
+
+        print(data)
+
         return data
