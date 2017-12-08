@@ -16,15 +16,13 @@ Currently these sets of catalogs are available (**Note that these catalogs are n
       
 Each of the catalogs is specified by a YAML config file, which can be found [here](https://github.com/j-dr/gcr-catalogs/tree/desi/GCRCatalogs/catalog_configs). The galaxy quantities in these catalogs conform to [this schema](https://docs.google.com/document/d/1rUsImkBkjjw82Xa_-3a8VMV6K9aYJ8mXioaRhz0JoqI/edit).
 
-## Use GCRCatalogs under the DESCQA Python environment on NERSC
+## Use GCRCatalogs under the DESIQA Python environment on NERSC
 
 _Note_: These instructions about Python environment may change in the future. If you encounter issues, please check if there's any updates on these instructions.
 
-`GCRCatalogs` is already installed in the DESCQA Python envoirnment at NERSC. To use it:
+### with Jupyter notebooks:
 
-### with Jupeter notebooks:
-
-First, [start a NERSC notebook server](https://jupyter-dev.nersc.gov) and open a notebook with a [DESI kernel](https://desi.lbl.gov/trac/wiki/Computing/JupyterAtNERSC). Make sure you add the DESCQA Python enviornment to `sys.path`:
+First, [start a NERSC notebook server](https://jupyter-dev.nersc.gov) and open a notebook with a [DESI kernel](https://desi.lbl.gov/trac/wiki/Computing/JupyterAtNERSC). Make sure you add the DESIQA Python enviornment to `sys.path`:
 
 ```python
 import sys
@@ -33,7 +31,7 @@ sys.path.insert(0, '/global/homes/j/jderose/desi/mocks/desiqa/cori/lib/python3.5
 
 ### in a terminal:
 
-Activate DESCQA Python environment by running the following on NERSC (needs to be in `bash` or `zsh`):
+Activate DESIQA Python environment by running the following on NERSC (needs to be in `bash` or `zsh`):
 
 source source /project/projectdirs/desi/software/desi_environment.sh
 export PYTHONPATH=/global/homes/j/jderose/desi/mocks/desiqa/cori/lib/python3.5/site-packages/:$PYTHONPATH
