@@ -1,0 +1,21 @@
+subclass_name: candels.CANDELSGalaxyCatalog
+
+filename: /global/homes/j/jderose/project/CANDELS-mocks/SAGE mocks/lightcone.h5
+
+lightcone: true
+
+version: "1.0"
+
+cosmology :
+    H0: 67.8
+    Om0: 0.307
+    Ob0: 0.048
+
+metadata :
+    versionMajor : 1
+    versionMinor : 0
+
+creators: ['Darren Croton']
+
+description: |
+    N/A

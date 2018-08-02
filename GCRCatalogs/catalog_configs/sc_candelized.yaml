@@ -1,0 +1,23 @@
+subclass_name: candels.CANDELSGalaxyCatalog
+
+filename: /project/projectdirs/cosmosim/slac/jderose/candels/mocks/sc/lightcone_goodss0.h5
+
+lightcone: true
+candelized: True
+area      : 0.44
+
+version: "1.0"
+
+cosmology :
+    H0: 67.8
+    Om0: 0.307
+    Ob0: 0.048
+
+metadata :
+    versionMajor : 1
+    versionMinor : 0
+
+creators: ['Rachel Somerville']
+
+description: |
+    N/A

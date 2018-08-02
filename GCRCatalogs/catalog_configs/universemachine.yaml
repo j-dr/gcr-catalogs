@@ -1,0 +1,22 @@
+subclass_name: universemachine.UniverseMachineGalaxyCatalog
+
+filename: /project/projectdirs/cosmosim/slac/jderose/candels/mocks/universemachine/lightcone_goodss0.h5
+
+lightcone: true
+area     : 0.44
+
+version: "1.0"
+
+cosmology :
+    H0: 67.8
+    Om0: 0.307
+    Ob0: 0.048
+
+metadata :
+    versionMajor : 1
+    versionMinor : 0
+
+creators: ['Peter Behroozi']
+
+description: |
+    N/A
